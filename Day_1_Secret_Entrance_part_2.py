@@ -1,30 +1,24 @@
 
-with open("Day_1_Secret_Entrance_data.txt") as file:
-    numbers = file.readlines()
+def turn(cur, trn):
+    steps = int(trn[1:])
+    if trn[0] == "L":
+        if cur == 0:
+            hits = steps // 100
+        else:
+            a = cur - steps
+            if a > 0:
+                hits = 0
+            else:
+                hits = 1 + ((-a) // 100)
+        return hits, (cur - steps) % 100
+    else:
+        return (cur + steps) // 100, (cur + steps) % 100
 
-current_point = 50
-result = 0
+current_pos = 50
+passwd = 0
 
-for code in numbers:
-    steps = int(code[1:])
-    start = current_point
-
-    full_around = steps // 100
-    result += full_around
-    rem = steps % 100
-
-    if code[0] == 'R':
-        end = (start + rem) % 100
-        if rem > 0 and end < start:
-            result += 1
-        current_point = end
-
-    elif code[0] == 'L':
-        end = (start - rem) % 100
-        if rem > 0 and end > start:
-            result += 1
-        current_point = end
-
-
-print(f'>>> Result 2: {result}')
-
+with open("Day_1_Secret_Entrance_data.txt", "r") as f:
+    for line in f:
+        cross, current_pos=turn(current_pos, line)
+        passwd += cross
+print(passwd)
