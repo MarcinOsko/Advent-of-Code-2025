@@ -1,24 +1,24 @@
 
-def turn(cur, trn):
-    steps = int(trn[1:])
-    if trn[0] == "L":
-        if cur == 0:
-            hits = steps // 100
-        else:
-            a = cur - steps
-            if a > 0:
-                hits = 0
-            else:
-                hits = 1 + ((-a) // 100)
-        return hits, (cur - steps) % 100
-    else:
-        return (cur + steps) // 100, (cur + steps) % 100
-
 current_pos = 50
-passwd = 0
+password = 0
 
-with open("Day_1_Secret_Entrance_data.txt", "r") as f:
+with (open("Day_1_Secret_Entrance_data.txt", "r") as f):
     for line in f:
-        cross, current_pos=turn(current_pos, line)
-        passwd += cross
-print(passwd)
+        steps = int(line[1:])
+        if line[0] == "L":
+            if current_pos == 0:
+                hits = steps // 100
+            else:
+                move = current_pos - steps
+                if move > 0:
+                    hits = 0
+                else:
+                    hits = 1 + ((-move) // 100)
+            password += hits
+            current_pos = (current_pos - steps) % 100
+        else:
+            hits = (current_pos + steps) // 100
+            password += hits
+            current_pos = (current_pos + steps) % 100
+
+print(f">>> PASWORD: {password}")
